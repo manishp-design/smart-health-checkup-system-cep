@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Online Healthcare Checkup</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 550px;
+    margin: 20px auto;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  h1 {
+    text-align: center;
+    color: #27ae60;
+    margin-bottom: 20px;
+  }
+  h2 {
+    text-align: center;
+    color: #2c3e50;
+  }
+  label {
+    display: block;
+    margin: 15px 0 5px 0;
+  }
+  input[type=text], input[type=number], input[type=tel] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  .button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background-color: #2980b9;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .button:hover {
+    background-color: #3498db;
+  }
+  .hidden {
+    display: none;
+  }
+  .symptom-bar {
+    margin-bottom: 15px;
+  }
+  .symptom-bar label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  .slider-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  input[type=range] {
+    flex-grow: 1;
+  }
+  .slider-value {
+    width: 30px;
+    text-align: center;
+    font-weight: bold;
+  }
+  .medicine-list {
+    margin-top: 10px;
+    padding-left: 20px;
+  }
+  textarea.feedback-area {
+    width: 100%;
+    height: 80px;
+    margin-top: 10px;
+    padding: 8px;
+    resize: vertical;
+  }
+</style>
+</head>
+<body>
+
+<!-- Interface 1: Patient Registration -->
+<div id="page1">
+  <h1>Check Your Health</h1>
+  <h2>Patient Registration</h2>
+  <label for="patientName">Name:</label>
+  <input type="text" id="patientName" required placeholder="Enter full name" />
+  
+  <label for="patientAge">Age:</label>
+  <input type="number" id="patientAge" required min="0" max="120" placeholder="Enter age" />
+  
+  <label for="patientPhone">Phone Number:</label>
+  <input type="tel" id="patientPhone" required pattern="[0-9]{10}" placeholder="10-digit phone number" />
+  
+  <label for="patientCity">City:</label>
+  <input type="text" id="patientCity" required placeholder="Enter city" />
+  
+  <button class="button" onclick="goToSymptoms()">Next</button>
+</div>
+
+<!-- Interface 2: Symptoms Input -->
+<div id="page2" class="hidden">
+  <h2>Enter Symptoms Severity (0 = None, 10 = Severe)</h2>
+  
+  <div class="symptom-bar">
+    <label for="symptomFever">Fever:</label>
+    <div class="slider-container">
+      <input type="range" id="symptomFever" min="0" max="10" value="0" oninput="updateSliderValue('symptomFeverValue', this.value)" />
+      <div class="slider-value" id="symptomFeverValue">0</div>
+    </div>
+  </div>
+  
+  <div class="symptom-bar">
+    <label for="symptomCough">Cough:</label>
+    <div class="slider-container">
+      <input type="range" id="symptomCough" min="0" max="10" value="0" oninput="updateSliderValue('symptomCoughValue', this.value)" />
+      <div class="slider-value" id="symptomCoughValue">0</div>
+    </div>
+  </div>
+  
+  <div class="symptom-bar">
+    <label for="symptomHeadache">Headache:</label>
+    <div class="slider-container">
+      <input type="range" id="symptomHeadache" min="0" max="10" value="0" oninput="updateSliderValue('symptomHeadacheValue', this.value)" />
+      <div class="slider-value" id="symptomHeadacheValue">0</div>
+    </div>
+  </div>
+  
+  <div class="symptom-bar">
+    <label for="symptomFatigue">Fatigue:</label>
+    <div class="slider-container">
+      <input type="range" id="symptomFatigue" min="0" max="10" value="0" oninput="updateSliderValue('symptomFatigueValue', this.value)" />
+      <div class="slider-value" id="symptomFatigueValue">0</div>
+    </div>
+  </div>
+  
+  <div class="symptom-bar">
+    <label for="symptomSoreThroat">Sore Throat:</label>
+    <div class="slider-container">
+      <input type="range" id="symptomSoreThroat" min="0" max="10" value="0" oninput="updateSliderValue('symptomSoreThroatValue', this.value)" />
+      <div class="slider-value" id="symptomSoreThroatValue">0</div>
+    </div>
+  </div>
+  
+  <div class="symptom-bar">
+    <label for="symptomRunnyNose">Runny Nose:</label>
+    <div class="slider-container">
+      <input type="range" id="symptomRunnyNose" min="0" max="10" value="0" oninput="updateSliderValue('symptomRunnyNoseValue', this.value)" />
+      <div class="slider-value" id="symptomRunnyNoseValue">0</div>
+    </div>
+  </div>
+  
+  <div class="symptom-bar">
+    <label for="symptomShortBreath">Shortness of Breath:</label>
+    <div class="slider-container">
+      <input type="range" id="symptomShortBreath" min="0" max="10" value="0" oninput="updateSliderValue('symptomShortBreathValue', this.value)" />
+      <div class="slider-value" id="symptomShortBreathValue">0</div>
+    </div>
+  </div>
+  
+  <div class="symptom-bar">
+    <label for="symptomChestPain">Chest Pain:</label>
+    <div class="slider-container">
+      <input type="range" id="symptomChestPain" min="0" max="10" value="0" oninput="updateSliderValue('symptomChestPainValue', this.value)" />
+      <div class="slider-value" id="symptomChestPainValue">0</div>
+    </div>
+  </div>
+  
+  <button class="button" onclick="diagnose()">Diagnose</button>
+</div>
+
+<!-- Interface 3: Diagnosis and Medicine -->
+<div id="page3" class="hidden">
+  <h2>Diagnosis & Medicine</h2>
+  <div id="diagnosisResult"></div>
+  <div id="medicineSuggestion"></div>
+  
+  <button class="button" onclick="finalPage()">Next</button>
+</div>
+
+<!-- Interface 4: Care message & feedback -->
+<div id="page4" class="hidden">
+  <h2>Thank You!</h2>
+  <p id="careMessage"></p>
+  
+  <label for="feedback">Your Feedback:</label>
+  <textarea id="feedback" class="feedback-area" placeholder="Write your feedback here..."></textarea>
+  
+  <button class="button" onclick="submitFeedback()">Submit Feedback</button>
+  <p id="feedbackMsg" style="color: green; margin-top: 10px;"></p>
+</div>
+
+<script>
+  let patientNameGlobal = "";
+
+  function goToSymptoms() {
+    const name = document.getElementById("patientName").value.trim();
+    const age = document.getElementById("patientAge").value.trim();
+    const phone = document.getElementById("patientPhone").value.trim();
+    const city = document.getElementById("patientCity").value.trim();
+    
+    if(!name || !age || !phone || !city){
+      alert("Please fill all fields correctly.");
+      return;
+    }
+    if(phone.length !== 10 || isNaN(phone)){
+      alert("Enter a valid 10-digit phone number.");
+      return;
+    }
+    
+    patientNameGlobal = name;
+    
+    document.getElementById("page1").classList.add("hidden");
+    document.getElementById("page2").classList.remove("hidden");
+  }
+
+  function updateSliderValue(elementId, value) {
+    document.getElementById(elementId).innerText = value;
+  }
+
+  function diagnose() {
+    // Get all symptom values
+    const symptoms = {
+      fever: Number(document.getElementById("symptomFever").value),
+      cough: Number(document.getElementById("symptomCough").value),
+      headache: Number(document.getElementById("symptomHeadache").value),
+      fatigue: Number(document.getElementById("symptomFatigue").value),
+      soreThroat: Number(document.getElementById("symptomSoreThroat").value),
+      runnyNose: Number(document.getElementById("symptomRunnyNose").value),
+      shortBreath: Number(document.getElementById("symptomShortBreath").value),
+      chestPain: Number(document.getElementById("symptomChestPain").value)
+    };
+
+    // Simple diagnostic logic based on symptom severity
+    let disease = "Unknown";
+    let medicine = [];
+
+    if(symptoms.fever >= 6 && symptoms.cough >= 5 && symptoms.soreThroat >= 4){
+      disease = "Flu";
+      medicine = ["Paracetamol", "Cough Syrup", "Rest"];
+    } else if(symptoms.headache >= 7 && symptoms.fatigue >= 7){
+      disease = "Migraine";
+      medicine = ["Painkillers", "Dark room rest"];
+    } else if(symptoms.fever >= 3 && symptoms.soreThroat >= 3 && symptoms.runnyNose >= 3){
+      disease = "Common Cold";
+      medicine = ["Vitamin C", "Warm fluids"];
+    } else if(symptoms.fatigue >= 7 && symptoms.cough >= 6 && symptoms.shortBreath >= 5){
+      disease = "Respiratory Infection";
+      medicine = ["Multivitamins", "Hydration", "Consult doctor"];
+    } else if(symptoms.chestPain >= 6){
+      disease = "Possible Cardiac Issue";
+      medicine = ["Immediate medical attention recommended"];
+    } else {
+      disease = "General Checkup Recommended";
+      medicine = ["Visit doctor for proper diagnosis"];
+    }
+
+    document.getElementById("diagnosisResult").innerHTML = `<b>Possible Disease:</b> ${disease}`;
+    document.getElementById("medicineSuggestion").innerHTML = `<b>Suggested Medicine:</b><ul class="medicine-list">${medicine.map(m => `<li>${m}</li>`).join('')}</ul>`;
+
+    document.getElementById("page2").classList.add("hidden");
+    document.getElementById("page3").classList.remove("hidden");
+  }
+
+  function finalPage(){
+    document.getElementById("page3").classList.add("hidden");
+    document.getElementById("page4").classList.remove("hidden");
+
+    const careMsg = `Take care, ${patientNameGlobal}! Wishing you a speedy recovery.`;
+    document.getElementById("careMessage").innerText = careMsg;
+  }
+
+  function submitFeedback(){
+    const feedbackText = document.getElementById("feedback").value.trim();
+    if(feedbackText.length === 0){
+      alert("Please enter feedback before submitting.");
+      return;
+    }
+    document.getElementById("feedbackMsg").innerText = "Thank you for your feedback!";
+    document.getElementById("feedback").value = "";
+  }
+</script>
+
+</body>
+</html>
